@@ -1,0 +1,111 @@
+public static void ZipDir(String sourceDIR, String objectFile, String zipRoot)
+        {
+            try
+            {
+                using (ZipFile zip = new ZipFile(objectFile, System.Console.Out))
+                {
+                    FileInfo info = new FileInfo(objectFile);
+                    String dir = info.Directory.FullName;
+                    if (!Directory.Exists(dir))
+                        Directory.CreateDirectory((dir));
+                    zip.AddDirectory(sourceDIR, zipRoot); // recurses subdirectories
+                    zip.Save();
+                }
+            }
+            catch (System.Exception ex1)
+            {
+                System.Console.Error.WriteLine("exception: " + ex1);
+            }
+        }
+
+        public static void UnZIP(String zipfile, String targdir)
+        {
+            try
+            {
+                String password = null;
+                string entryToExtract = null;
+                bool WantExtract = true;
+                bool WantOverwrite = false;
+
+                using (ZipFile zip = ZipFile.Read(zipfile))
+                {
+                    if (entryToExtract != null)
+                    {
+                        // find the entry
+                        if (zip[entryToExtract] == null)
+                        {
+                            System.Console.WriteLine("  That entry ({0}) does not exist in the zip archive.", entryToExtract);
+                        }
+                        else
+                        {
+                            if ((password != null) && !(zip[entryToExtract].UsesEncryption))
+                            {
+                                System.Console.WriteLine("  That entry ({0}) does not require a password to extract.", entryToExtract);
+                                password = null;
+                            }
+
+                            if (password == null)
+                            {
+                                if (zip[entryToExtract].UsesEncryption)
+                                    System.Console.WriteLine("  That entry ({0}) requires a password to extract.", entryToExtract);
+                                else
+                                    zip[entryToExtract].Extract(targdir, WantOverwrite);
+                            }
+                            else
+                            {
+                                zip[entryToExtract].ExtractWithPassword(targdir, WantOverwrite, password);
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        bool header = true;
+                        foreach (ZipEntry e in zip)
+                        {
+                            if (header)
+                            {
+                                System.Console.WriteLine("Zipfile: {0}", zip.Name);
+                                if ((zip.Comment != null) && (zip.Comment != ""))
+                                    System.Console.WriteLine("Comment: {0}", zip.Comment);
+
+                                System.Console.WriteLine("\n{1,-22} {2,8}  {3,5}   {4,8}  {5,3} {0}",
+                                             "Filename", "Modified", "Size", "Ratio", "Packed", "pw?");
+                                System.Console.WriteLine(new System.String('-', 72));
+                                header = false;
+                            }
+
+                            System.Console.WriteLine("{1,-22} {2,8} {3,5:F0}%   {4,8}  {5,3} {0}",
+                                                             e.FileName,
+                                                             e.LastModified.ToString("yyyy-MM-dd HH:mm:ss"),
+                                                             e.UncompressedSize,
+                                                             e.CompressionRatio,
+                                                             e.CompressedSize,
+                                                             (e.UsesEncryption) ? "Y" : "N");
+
+                            if ((e.Comment != null) && (e.Comment != ""))
+                                System.Console.WriteLine("  Comment: {0}", e.Comment);
+
+                            if (WantExtract)
+                            {
+                                if (e.UsesEncryption)
+                                {
+                                    if (password == null)
+                                        System.Console.WriteLine("  Cannot extract this entry without a password.");
+                                    else
+                                        e.ExtractWithPassword(targdir, WantOverwrite, password);
+                                }
+                                else
+                                {
+                                    e.Extract(targdir, WantOverwrite);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex1)
+            {
+                System.Console.Error.WriteLine("exception: " + ex1);
+            }
+        }
