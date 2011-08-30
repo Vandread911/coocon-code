@@ -1,0 +1,129 @@
+﻿<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<title>TiledDynamicRESTLayer</title>
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <script src="../OpenLayers.js"></script>
+	<script src="../lib/SuperMap.js"></script>
+    <script type="text/javascript">
+        var map, layer,
+		lon = 96, 
+		lat = 40, 
+		zoom = 2,
+		urlchang = 'http://localhost:8090/iserver/services/map-changchun/rest/maps/长春市区图',
+			//TiledDynamicRESTLayer初始化必设参数，包括viewBounds，viewer，scale。
+            options = {
+                "viewBounds": {
+                    "bottom": 12.626107284007746,
+                    "left": 81.22634898840775,
+                    "leftBottom": {
+                        "x": 81.22634898840775,
+                        "y": 12.626107284007746
+                    },
+                    "right": 111.12105055399226,
+                    "rightTop": {
+                        "x": 111.12105055399226,
+                        "y": 42.52080884959226
+                    },
+                    "top": 42.52080884959226
+                },
+                "viewer": {
+                    "bottom": 256,
+                    "height": 256,
+                    "left": 0,
+                    "leftTop": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "right": 256,
+                    "rightBottom": {
+                        "x": 256,
+                        "y": 256
+                    },
+                    "top": 0,
+                    "width": 256
+                },
+                "scale": 2.563206512274041E-8
+            },
+			optionsChang = {
+                "viewBounds": {
+                    "bottom": 12.626107284007746,
+                    "left": -156.22634898840775,
+                    "leftBottom": {
+                        "x": 81.22634898840775,
+                        "y": 12.626107284007746
+                    },
+                    "right": 111.12105055399226,
+                    "rightTop": {
+                        "x": 111.12105055399226,
+                        "y": 42.52080884959226
+                    },
+                    "top": 30.52080884959226
+                },
+                "viewer": {
+                    "bottom": 256,
+                    "height": 256,
+                    "left": 0,
+                    "leftTop": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "right": 256,
+                    "rightBottom": {
+                        "x": 256,
+                        "y": 256
+                    },
+                    "top": 0,
+                    "width": 256
+                },
+                "scale": 1.863206512274041E-5
+            },
+            htmlUrl = document.location.toString(),
+            stringIndex = htmlUrl.indexOf("//"),
+            subString = htmlUrl.substring(0,stringIndex-1);
+			
+        if (subString == "file") {
+            url = "http://localhost:8090/iserver/services/map-world/rest/maps/World Map";
+        } else {
+            url = document.location.host;
+            url = "http://" + url + "/iserver/services/map-world/rest/maps/World Map";
+        }
+        function init() {
+            map = new OpenLayers.Map("map");
+            layer = new OpenLayers.SuperMap.Layer.TiledDynamicRESTLayer("World", url, {}, options); 
+			layerChang=new OpenLayers.SuperMap.Layer.TiledDynamicRESTLayer("长春市区图", urlchang, {},optionsChang); 
+            map.addLayer(layerChang);
+			map.addLayer(layer);
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+            addControls();
+        }
+        function addControls() {
+		    var layerSwitcher = new OpenLayers.Control.LayerSwitcher(),
+                scaleLine = new OpenLayers.Control.ScaleLine(),
+                mousePosition = new OpenLayers.Control.MousePosition(),
+                navigation = new OpenLayers.Control.Navigation({
+				    dragPanOptions: {
+					    enableKinetic: true
+                    }
+                });
+            map.addControls([layerSwitcher, scaleLine, mousePosition, navigation]);
+        }
+    </script>
+  </head>
+  <body onload="init()">
+    <h1 id="title">SuperMap iServer Java 6R 分块动态 REST 图层 Example</h1>
+
+    <div id="tags">
+		
+    </div>
+    <p id="shortdesc">
+		TiledDynamicRESTLayer 就是用于显示 SuperMap iServer Java 6R 服务提供的基于 REST 类型的地图服务的一种动态图层。
+    </p>
+
+    <div id="map" class="bigmap"></div>
+
+    <div id="docs">
+    </div>
+  </body>
+</html>
