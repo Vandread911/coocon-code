@@ -25,8 +25,8 @@ var puzzle=function(){
 		this.row = row;			//行信息
 		this.column = column;	//列信息
 		this.index = index;		//内容信息
-		this.oldRow = row;      //原来的位置内容
-		this.oldColumn = column; 
+		this.oldRow = row;      //原来的位置内容row
+		this.oldColumn = column; //原来的位置内容column
 	},
 	//绘制网格线
     drawBoard = function(){	
@@ -35,14 +35,12 @@ var puzzle=function(){
 		for (var x = 0; x <= totalWidth; x += kPieceWidth) {
 			gDrawingContext.moveTo(0.0 + x, 0);
 			gDrawingContext.lineTo(0.0 + x, totalHeight);
-		}
-		
+		}		
 		//绘制水平网格线
 		for (var y = 0; y <= totalHeight; y += kPieceHeight) {
 			gDrawingContext.moveTo(0, 0.0 + y);
 			gDrawingContext.lineTo(totalWidth, 0.0 +  y);
-		}
-		
+		}		
 		//设定样式并且绘制到屏幕上
 		gDrawingContext.strokeStyle = "#f00";
 		gDrawingContext.stroke();
@@ -52,10 +50,10 @@ var puzzle=function(){
 		var column = p.column,
 		row = p.row,
 		index = p.index,
-		_row = parseInt(index/kBoardWidth),   //图片的行数
-		_column = index-_row*kBoardWidth,	  //图片的列数
-		sy = _row*kPicHeight,                 //图片起始纵坐标
-		sx = _column*kPicWidth ,			  //图片起始横坐标
+		_row = parseInt(index / kBoardWidth),   //图片的行数
+		_column = index-_row * kBoardWidth,	  //图片的列数
+		sy = _row * kPicHeight,                 //图片起始纵坐标
+		sx = _column * kPicWidth ,			  //图片起始横坐标
 		dx = column * kPieceWidth,			  //canvas 起始横坐标	
 		dy = row * kPieceHeight;			  //canvas起始纵坐标
 		gDrawingContext.drawImage(gPic,sx,sy,kPicWidth,kPicHeight,dx,dy,kPieceWidth,kPieceHeight);	//截取对应的小块图片，并且绘制到canvas中
@@ -246,10 +244,13 @@ var puzzle=function(){
 			alert('ok');
 		}
 	}
+	//点击画布，移动图片
 	function ClickCanvas(evt){
 		var e=evt || event,
-		row = parseInt(e.offsetY / kPieceHeight), //点击的行数
-		col = parseInt(e.offsetX / kPieceWidth),  //点击的列数
+		offsetX = e.offsetX || getOffset(evt).offsetX,
+		offsetY = e.offsetY || getOffset(evt).offsetY,
+		row = parseInt(offsetY / kPieceHeight), //点击的行数
+		col = parseInt(offsetX / kPieceWidth),  //点击的列数
 		emptyPieceNum = kBoardWidth*kBoardHeight-1,	//得到空白图片的内容
 		tmp = gPieces[emptyPieceNum],
 		blankRow = tmp.row,
@@ -285,11 +286,39 @@ var puzzle=function(){
 		return originImage.height;
 	}
 	
+	//firefox下没有offsetX和offsetY，所以要自己算
+	function getOffset(evt){
+		var target = evt.target,
+		pageCoord,       //文档偏移 
+		eventCoord,     //点击事件点偏移
+		offset;		    //得到的最后偏移量 eventCoord-pageCoord
+		if (target.offsetLeft == undefined)	{
+			target = target.parentNode;
+		}
+        pageCoord = getPageCoord(target);
+		eventCoord ={ 
+			x: window.pageXOffset + evt.clientX,
+			y: window.pageYOffset + evt.clientY
+		};
+		offset ={
+			offsetX: eventCoord.x - pageCoord.x,
+			offsetY: eventCoord.y - pageCoord.y
+		};
+		return offset;
+	}
+	//获取元素至body的总offset
+	function getPageCoord(element){
+		var coord = {x: 0, y: 0};
+		while (element)	{
+			coord.x += element.offsetLeft;
+			coord.y += element.offsetTop;
+			element = element.offsetParent;
+		}
+		return coord;
+	}
 	return 	{
 		init:initGame         //初始化游戏
 	}
-
-
 }()
 
 
