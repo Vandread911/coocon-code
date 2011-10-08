@@ -202,30 +202,7 @@ var puzzle=function(){
 			if(key == 37 || key == 65 ) movePiece("left");  //左 或者 A 被按下
 			if(key == 39 || key == 68 ) movePiece("right"); //右 或者 D 被按下
 		} 
-		gCanvasElement.addEventListener("click", function(evt){
-			var e=evt || event,
-			row = parseInt(e.offsetY / kPieceHeight), //点击的行数
-			col = parseInt(e.offsetX / kPieceWidth),  //点击的列数
-			emptyPieceNum = kBoardWidth*kBoardHeight-1,	//得到空白图片的内容
-			tmp = gPieces[emptyPieceNum],
-		    blankRow = tmp.row,
-			blankCol = tmp.column,
-			direction = null;			
-			if(row -blankRow == 1 && col == blankCol){  //up
-				direction = "up";
-			} else if(row - blankRow == -1 && col == blankCol){   //down
-				direction = "down";
-			} else if( row == blankRow && col - blankCol ==1){ //left
-				direction = "left";
-			} else if( row == blankRow && col - blankCol == -1){ //right
-				direction = "right";
-			}
-			if(direction){
-				movePiece(direction);		
-			}else{
-				return false;
-			}
-		},false);
+		gCanvasElement.addEventListener("click",function(evt){ClickCanvas(evt)} ,false);
 		
 	};
 	
@@ -266,6 +243,30 @@ var puzzle=function(){
 		}
 		if(suc && gIsStart){
 			alert('ok');
+		}
+	}
+	function ClickCanvas(evt){
+		var e=evt || event,
+		row = parseInt(e.offsetY / kPieceHeight), //点击的行数
+		col = parseInt(e.offsetX / kPieceWidth),  //点击的列数
+		emptyPieceNum = kBoardWidth*kBoardHeight-1,	//得到空白图片的内容
+		tmp = gPieces[emptyPieceNum],
+		blankRow = tmp.row,
+		blankCol = tmp.column,
+		direction = null;			
+		if(row -blankRow == 1 && col == blankCol){  //up
+			direction = "up";
+		} else if(row - blankRow == -1 && col == blankCol){   //down
+			direction = "down";
+		} else if( row == blankRow && col - blankCol ==1){ //left
+			direction = "left";
+		} else if( row == blankRow && col - blankCol == -1){ //right
+			direction = "right";
+		}
+		if(direction){
+			movePiece(direction);		
+		}else{
+			return false;
 		}
 	}
 	//获取图片原始宽度
