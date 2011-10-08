@@ -202,6 +202,7 @@ var puzzle=function(){
 			if(key == 37 || key == 65 ) movePiece("left");  //左 或者 A 被按下
 			if(key == 39 || key == 68 ) movePiece("right"); //右 或者 D 被按下
 		} 
+		//添加canvas的点击事件
 		gCanvasElement.addEventListener("click",function(evt){ClickCanvas(evt)} ,false);
 		
 	};
