@@ -2,19 +2,20 @@
 
 	<head>
 		<title>Puzzle</title>
-		<script type="text/javascript" src="puzzle.js"></script>
+		<script type="text/javascript" src="puzzle2.js"></script>
 	</head>
 	<body>
-		<img id="pic" style="display:none" src="yanzi.jpg"/>
-		<p id="moves">Puzzle @ by coocon£ºMove: <span id="movecount">0</span></p>
+	    <p id="moves">Puzzle @ by coocon£ºMove: <span id="movecount">0</span></p>
+
+		<canvas style="float:left;width:600px;height:600px;" id="puzzle" ></canvas>
 		
+		<img id="pic" style="display:block;float:left;width:600px;height:600px;margin: 0 0 0 100px;" src="yanzi.jpg"/>		
 		<script type="text/javascript">
-			window.onload = function(){
-			
-				initGame(document.getElementById("puzzle"), document.getElementById("movecount"));
+			window.onload = function(){			
+				puzzle.init(document.getElementById("puzzle"), document.getElementById("movecount"));
 			}
 		</script>
-		<canvas id="puzzle" height="600" width="600"></canvas>
+
 	</body>
 
 </html>

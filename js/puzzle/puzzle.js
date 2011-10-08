@@ -5,7 +5,7 @@ var kPieceWidth = 200;			//每块的宽度
 var kPieceHeight = 200;			//每块的高度
 var kPixelWidth = 1 + kBoardWidth * kPieceWidth;		//游戏视野的宽度
 var kPixelHeight = 1 + kBoardHeight * kPieceHeight;		//游戏视野的高度
-var exchangeTimes = 1;		//随机对换次数
+var exchangeTimes = 0;		//随机对换次数
 
 var gCanvasElement;				//canvas元素节点
 var gDrawingContext;			//canvas元素的context内容
@@ -108,14 +108,14 @@ function drawBoard()
 	
 	//绘制竖直网格线
     for (var x = 0; x <= kPixelWidth; x += kPieceWidth) {
-	gDrawingContext.moveTo(0.0 + x, 0);
-	gDrawingContext.lineTo(0.0 + x, kPixelHeight);
+	gDrawingContext.moveTo(0.5 + x, 0);
+	gDrawingContext.lineTo(0.5 + x, kPixelHeight);
     }
     
     //绘制水平网格线
     for (var y = 0; y <= kPixelHeight; y += kPieceHeight) {
-	gDrawingContext.moveTo(0, 0.0 + y);
-	gDrawingContext.lineTo(kPixelWidth, 0.0 +  y);
+	gDrawingContext.moveTo(0, 0.5 + y);
+	gDrawingContext.lineTo(kPixelWidth, 0.5 +  y);
     }
     
     //设定样式并且绘制到屏幕上
