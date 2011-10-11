@@ -1,10 +1,9 @@
-﻿//把puzzle看作一个实例工具对象
-var puzzle=function(){
+﻿var puzzle=function(){
 	var kBoardWidth = 3,	    //横向块数
 	kBoardHeight = 3,			//纵向块数
 	totalWidth = 600,           //总宽度
 	totalHeight = 600,          //总高度
-    exchangeTimes = 500,         //随机对换次数
+    exchangeTimes = 500,        //随机对换次数
     originImage = new Image(),  //用来获取原始图片的对象
 	kPieceWidth = 0,			//每块的宽度  在init函数初始化
 	kPieceHeight = 0,			//每块的高度  在init函数初始化	
@@ -26,7 +25,7 @@ var puzzle=function(){
 		this.column = column;	//列信息
 		this.index = index;		//内容信息
 		this.oldRow = row;      //原来的位置内容row
-		this.oldColumn = column; //原来的位置内容column
+		this.oldColumn = column;//原来的位置内容column
 	},
 	//绘制网格线
     drawBoard = function(){	
@@ -50,12 +49,13 @@ var puzzle=function(){
 		var column = p.column,
 		row = p.row,
 		index = p.index,
-		_row = parseInt(index / kBoardWidth),   //图片的行数
+		_row = parseInt(index / kBoardWidth), //图片的行数
 		_column = index-_row * kBoardWidth,	  //图片的列数
-		sy = _row * kPicHeight,                 //图片起始纵坐标
+		sy = _row * kPicHeight,               //图片起始纵坐标
 		sx = _column * kPicWidth ,			  //图片起始横坐标
 		dx = column * kPieceWidth,			  //canvas 起始横坐标	
 		dy = row * kPieceHeight;			  //canvas起始纵坐标
+		//这个是9个参数的画图函数
 		gDrawingContext.drawImage(gPic,sx,sy,kPicWidth,kPicHeight,dx,dy,kPieceWidth,kPieceHeight);	//截取对应的小块图片，并且绘制到canvas中
 		
 	}
@@ -67,14 +67,14 @@ var puzzle=function(){
 		for(var i = 0; i < gNumPieces - 1; i++)	{
 			var row = parseInt(i / kBoardWidth);
 			var column = i-row * kBoardWidth;
-			gPieces[i] = new Cell(row,column,i);			//创建小块方格元素
+			gPieces[i] = new Cell(row,column,i);			                       //创建小块方格元素
 		}
 			
 		//创建最后一个空白图片块，index为-1
-		gPieces[gNumPieces-1]	= new Cell(kBoardHeight-1,kBoardWidth-1,-1);	//空白的图片
+		gPieces[gNumPieces-1]	= new Cell(kBoardHeight-1,kBoardWidth-1,-1);	   //空白的图片
 		randExchange();		//随机打乱图片
-		gDrawingContext.clearRect(0, 0, totalWidth, totalHeight);	//清除canvas原有内容
-		for(var i = 0; i < gNumPieces - 1; i++){	//绘制图片
+		gDrawingContext.clearRect(0, 0, totalWidth, totalHeight);	               //清除canvas原有内容
+		for(var i = 0; i < gNumPieces - 1; i++){	                               //绘制图片
 			drawPiece(gPieces[i]);
 		}
 		drawBoard();		//绘制网格线
