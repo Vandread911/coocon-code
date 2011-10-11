@@ -18,9 +18,9 @@ var puzzle=function(){
 	gMoveCountElem,				//移动步数元素节点
 	gMoveCount,					//移动次数
 	gPieces,					//小块图片数组
-	gNumPieces = kBoardWidth * kBoardHeight,				//小块图片的张数
 	gIsStart = false,           //是否游戏已经开始  
 	gPic,                       //原始图片对象
+	gNumPieces = kBoardWidth * kBoardHeight,				//小块图片的张数
 	Cell = function(row,column,index){
 		this.row = row;			//行信息
 		this.column = column;	//列信息
