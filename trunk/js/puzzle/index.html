@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+	<head>
+		<title>Puzzle</title>
+		<script type="text/javascript" src="puzzle2.js"></script>
+	</head>
+	<body>
+	    <p id="moves">Puzzle @ by coocon£ºMove: <span id="movecount">0</span></p>
+
+		<canvas style="float:left;width:600px;height:600px;" id="puzzle" ></canvas>
+		
+		<img id="pic" style="display:block;float:left;width:600px;height:600px;margin: 0 0 0 100px;" src="yanzi.jpg"/>		
+		<script type="text/javascript">
+			window.onload = function(){			
+				puzzle.init(document.getElementById("puzzle"), document.getElementById("movecount"));
+			}
+		</script>
+
+	</body>
+
+</html>
