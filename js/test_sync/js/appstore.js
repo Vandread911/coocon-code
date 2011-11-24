@@ -8,7 +8,7 @@
 *
 *
 */
-hello,world
+hello,world2
 
 //用闭包提供一个封闭的环境
 
