@@ -10,6 +10,8 @@
 */
 hello,world2
 
+
+jfkdajkjkl
 //用闭包提供一个封闭的环境
 
 Jstool=function(win){
