@@ -22,7 +22,7 @@ net.createServer(function (client)
             return;
         }
         client.removeAllListeners('data');    
-        var strReq = logs.reqShow(req); 
+        var strReq = logs.reqShow(req, username); 
         if(strReq) {
             logs.show(strReq);
             setInterval(function() {
