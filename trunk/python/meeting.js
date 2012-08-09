@@ -22,7 +22,7 @@ net.createServer(function (client)
             return;
         }
         client.removeAllListeners('data');    
-        var strReq = logs.reqShow(req, username); 
+        var strReq = logs.reqShow(req, userName); 
         if(strReq) {
             logs.show(strReq);
             setInterval(function() {
@@ -199,11 +199,11 @@ function buffer_find_body(b)
 
 //log实例 
 function getLogs() {
-    var reqShow =  function(req, regUrl) {
+    var reqShow =  function(req, userName) {
         try {
-            regUrl  = regUrl ||  /graniteamf\/amf/g;
+            var regUrl  = /graniteamf\/amf/g;
             var arr = [];
-            var userName = /gengpeng.*/g;
+            var userName = userName || /gengpeng.*/g;
             if(!req.path.match(regUrl)) { 
                return null;  
             }
