@@ -67,7 +67,7 @@ net.createServer(function (client)
                 }else {
                     tryTimesDic[req.roomId] = 1;
                 }
-                console.log('we have a try roomId__', req.roomId,'  times:', tryTimesDic[req.roomId] ); 
+                console.log('we have a try roomId:', req.roomId,'  times:', tryTimesDic[req.roomId] ); 
             }, timeSpan); 
 
         }
